@@ -8,7 +8,7 @@
 #endif
 #include "FONTX2.h"
 
-const unsigned char aucFontImage[8192] PROGMEM = {
+const static unsigned char aucFontImage[8192] PROGMEM = {
 	/* 00 */
 	0x00, /*                  */
 	0x00, /*                  */

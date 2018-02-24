@@ -14,7 +14,7 @@ void setup() {
   unsigned char aucFontImage[8];
   char strOutput[64];
   
-  Serial.begin(9600);
+  Serial.begin(115200);
   delay(10);
 
   while(iLocate < iLen) {
