@@ -2,6 +2,8 @@
 #include <FONTX2.h>
 
 extern FONTX2_Header_ANK_t tNaga10K;
+extern FONTX2_Header_ANK_t tILGH16XB;
+extern FONTX2_Header_ANK_t tILMH16XB;
 
 void setup() {
   // put your setup code here, to run once:
