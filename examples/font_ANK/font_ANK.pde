@@ -15,7 +15,7 @@ void setup() {
   char strOutput[64];
   
   Serial.begin(9600);
-  delay(100);
+  delay(10);
 
   while(iLocate < iLen) {
     sprintf(strOutput, "Character : '%c'\n", strString[iLocate]);
