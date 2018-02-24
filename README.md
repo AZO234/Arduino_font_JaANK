@@ -14,4 +14,7 @@ Reference
 ---------
 - snagao@titech - My Original Font Data  
 http://hp.vector.co.jp/authors/VA013391/fonts/
+- IPAexフォント/IPAフォント | IPAフォントのダウンロードサイトです  
+https://ipafont.ipa.go.jp/#jp
+
 

@@ -31,14 +31,4 @@ typedef struct FONTX2_Header_FullSize {
 	const unsigned char* pucFontImage;
 } FONTX2_Header_FullSize_t;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-unsigned int FONTX2_ANK_GetFontImage(unsigned char* pucFontImage, const FONTX2_Header_ANK_t* ptANK, const char* strString);
-
-#ifdef __cplusplus
-}
-#endif
-
 #endif	/* FONTX2_H */
