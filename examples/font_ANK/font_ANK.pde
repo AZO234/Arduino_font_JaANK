@@ -10,7 +10,7 @@ void setup() {
   char strString[] = "ABC";
   int iLen = strlen(strString);
   int iLocate = 0;
-  int i, j;
+  int i, j, k;
   unsigned char aucFontImage[8];
   char strOutput[64];
   
@@ -23,7 +23,7 @@ void setup() {
     Serial.write(strOutput);
     for(j = 0; j < tNaga10K.tCommon.ucFontHeight; j++) {
       for(i = 0; i < tNaga10K.tCommon.ucFontWidth; i++) {
-        if(((aucFontImage[j] >> (7 - i)) & 0x1) == 0) {
+        if(((aucFontImage[j + k] >> (7 - i)) & 0x1) == 0) {
           Serial.write("  ");
         } else {
           Serial.write("@@");
