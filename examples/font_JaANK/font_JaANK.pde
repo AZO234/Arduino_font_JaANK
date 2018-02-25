@@ -1,4 +1,10 @@
 #include <string.h>
+#if defined(__AVR__)
+#include <avr/pgmspace.h>
+#elif defined(ESP8266)
+#include <pgmspace.h>
+#else
+#endif
 #include <FONTX2.h>
 
 extern FONTX2_Header_ANK_t tNaga10K;
@@ -18,13 +24,17 @@ unsigned int FONTX2_ANK_GetFontImage(unsigned char* pucFontImage, const FONTX2_H
     ucLineSize = ptANK->tCommon.ucFontWidth / 8 + 1;
   }
 
+#if defined(__AVR__)
   for(ucData = 0; ucData < ptANK->tCommon.ucFontHeight * ucLineSize; ucData++) {
-#ifdef __AVR__
     pucFontImage[ucData] = pgm_read_byte_near(ptANK->pucFontImage + (unsigned int)strString[0] * ptANK->tCommon.ucFontHeight * ucLineSize + ucData);
-#else
-    pucFontImage[ucData] = ptANK->pucFontImage[(unsigned int)strString[0] * ptANK->tCommon.ucFontHeight * ucLineSize + ucData];
-#endif
   }
+#elif defined(ESP8266)
+    memcpy_P(pucFontImage, &ptANK->pucFontImage[(unsigned int)strString[0] * ptANK->tCommon.ucFontHeight * ucLineSize], ptANK->tCommon.ucFontHeight * ucLineSize);
+#else
+  for(ucData = 0; ucData < ptANK->tCommon.ucFontHeight * ucLineSize; ucData++) {
+    pucFontImage[ucData] = ptANK->pucFontImage[(unsigned int)strString[0] * ptANK->tCommon.ucFontHeight * ucLineSize + ucData];
+  }
+#endif
 
   return 1;
 }

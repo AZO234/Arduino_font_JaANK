@@ -5,8 +5,10 @@
 /* E-mail: snagao@tkb.att.ne.jp */
 /* Web   : http://www.vector.co.jp/authors/VA013391/ */
 
-#ifdef __AVR__
-#include "avr/pgmspace.h"
+#if defined(__AVR__)
+#include <avr/pgmspace.h>
+#elif defined(ESP8266)
+#include <pgmspace.h>
 #else
 #define PROGMEM
 #endif

@@ -1,8 +1,10 @@
 /* IPA Mincho ANK font by AZO */
 /* This file is genarated by FX22src. */
 
-#ifdef __AVR__
-#include "avr/pgmspace.h"
+#if defined(__AVR__)
+#include <avr/pgmspace.h>
+#elif defined(ESP8266)
+#include <pgmspace.h>
 #else
 #define PROGMEM
 #endif
