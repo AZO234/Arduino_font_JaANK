@@ -1,12 +1,14 @@
 Japanese Hankaku(ANK) font data by AZO
 ======================================
-version: v1.0.0(Feb 24, 2018)  
+version: v1.0.0(Oct 2, 2019)  
 http://domisan.sakura.ne.jp/
 
 Library of Japanese Hankaku(ANK) font data for Arduino IDE.
 
 This library includes follow ANK fonts.
 * [4x8] Naga10 altanated
+* [5x8] HD44780 A00
+* [5x8] HD44780 A02
 * [8x16] IPA Gothic
 * [8x16] IPA Mincho
 
