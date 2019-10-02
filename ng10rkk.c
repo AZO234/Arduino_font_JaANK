@@ -14,7 +14,7 @@
 #endif
 #include "FONTX2.h"
 
-const static unsigned char aucFontData[2048] PROGMEM = {
+const static uint8_t au8FontData[2048] PROGMEM = {
 	/* 0x00 */
 	0x00, 	/*          */
 	0x00, 	/*          */
@@ -2579,8 +2579,8 @@ const static unsigned char aucFontData[2048] PROGMEM = {
 
 const FONTX2_Header_ANK_t tNaga10K = {
 	"FONTX2",
-	"NAGA10K ",
+	"NAGA10K",
 	4, 8,
 	0,
-	aucFontData
+	au8FontData
 };

@@ -10,7 +10,7 @@
 #endif
 #include "FONTX2.h"
 
-const static unsigned char aucFontImage[8192] PROGMEM = {
+const static uint8_t au8FontImage[8192] PROGMEM = {
 	/* 00 */
 	0x00, /*                  */
 	0x00, /*                  */
@@ -4626,5 +4626,5 @@ const FONTX2_Header_ANK_t tILMH16XB = {
 	"ILMH16XB",
 	8, 16,
 	0,
-	aucFontImage
+	au8FontImage
 };

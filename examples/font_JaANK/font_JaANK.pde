@@ -1,3 +1,6 @@
+#include <stdint.h>
+#include <stdbool.h>
+
 #include <string.h>
 #if defined(__AVR__)
 #include <avr/pgmspace.h>
@@ -10,49 +13,50 @@
 extern FONTX2_Header_ANK_t tNaga10K;
 extern FONTX2_Header_ANK_t tILGH16XB;
 extern FONTX2_Header_ANK_t tILMH16XB;
+extern FONTX2_Header_ANK_t tHD44780_A00;
+extern FONTX2_Header_ANK_t tHD44780_A02;
 
-unsigned int FONTX2_ANK_GetFontImage(unsigned char* pucFontImage, const FONTX2_Header_ANK_t* ptANK, const char* strString) {
-  unsigned char ucData, ucLineSize;
+unsigned int FONTX2_ANK_GetFontImage(uint8_t* pu8FontImage, const FONTX2_Header_ANK_t* ptANK, const uint8_t u8Code) {
+  uint8_t u8Data, u8LineSize;
 
-  if(pucFontImage == NULL || ptANK == NULL || strString == NULL) {
+  if(pu8FontImage == NULL || ptANK == NULL) {
     return 0;
   }
 
-  if(ptANK->tCommon.ucFontWidth % 8 == 0) {
-    ucLineSize = ptANK->tCommon.ucFontWidth / 8;
+  if(ptANK->tCommon.u8FontWidth % 8 == 0) {
+    u8LineSize = ptANK->tCommon.u8FontWidth / 8;
   } else {
-    ucLineSize = ptANK->tCommon.ucFontWidth / 8 + 1;
+    u8LineSize = ptANK->tCommon.u8FontWidth / 8 + 1;
   }
 
 #if defined(__AVR__)
-  for(ucData = 0; ucData < ptANK->tCommon.ucFontHeight * ucLineSize; ucData++) {
-    pucFontImage[ucData] = pgm_read_byte_near(ptANK->pucFontImage + (unsigned int)strString[0] * ptANK->tCommon.ucFontHeight * ucLineSize + ucData);
+  for(u8Data = 0; u8Data < ptANK->tCommon.u8FontHeight * u8LineSize; u8Data++) {
+    pu8FontImage[u8Data] = pgm_read_byte_near(ptANK->pu8FontImage + (uint32_t)u8Code * ptANK->tCommon.u8FontHeight * u8LineSize + u8Data);
   }
 #elif defined(ESP8266)
-    memcpy_P(pucFontImage, &ptANK->pucFontImage[(unsigned int)strString[0] * ptANK->tCommon.ucFontHeight * ucLineSize], ptANK->tCommon.ucFontHeight * ucLineSize);
+  memcpy_P(pu8FontImage, &ptANK->pu8FontImage[(uint32_t)u8Code * ptANK->tCommon.u8FontHeight * u8LineSize], ptANK->tCommon.u8FontHeight * u8LineSize);
 #else
-  for(ucData = 0; ucData < ptANK->tCommon.ucFontHeight * ucLineSize; ucData++) {
-    pucFontImage[ucData] = ptANK->pucFontImage[(unsigned int)strString[0] * ptANK->tCommon.ucFontHeight * ucLineSize + ucData];
+  for(u8Data = 0; u8Data < ptANK->tCommon.u8FontHeight * u8LineSize; u8Data++) {
+    pu8FontImage[u8Data] = ptANK->pu8FontImage[(uint32_t)u8Code * ptANK->tCommon.u8FontHeight * u8LineSize + u8Data];
   }
 #endif
 
   return 1;
 }
 
-void FontImageSerialWrite(const FONTX2_Header_ANK_t* ptANK, const char* strString) {
-  int iLen = strlen(strString);
-  int iLocate = 0;
-  int i, j, k;
-  unsigned char aucFontImage[8];
-  char strOutput[64];
+void FontImageSerialWrite(const FONTX2_Header_ANK_t* ptANK, const uint8_t* strString) {
+  uint32_t k = 0;
+  uint8_t i, j;
+  uint8_t au8FontImage[64];
+  uint8_t strOutput[64];
 
-  while(iLocate < iLen) {
-    sprintf(strOutput, "Character : '%c'\n", strString[iLocate]);
-    iLocate += FONTX2_ANK_GetFontImage(aucFontImage, ptANK, &strString[iLocate]);
-    Serial.write(strOutput);
-    for(j = 0; j < ptANK->tCommon.ucFontHeight; j++) {
-      for(i = 0; i < ptANK->tCommon.ucFontWidth; i++) {
-        if(((aucFontImage[j + k] >> (7 - i)) & 0x1) == 0) {
+  while(strString[k]) {
+    sprintf(strOutput, "Character : '%c'\n", strString[k]);
+    FONTX2_ANK_GetFontImage(au8FontImage, ptANK, strString[k]);
+    Serial.write((char*)strOutput);
+    for(j = 0; j < ptANK->tCommon.u8FontHeight; j++) {
+      for(i = 0; i < ptANK->tCommon.u8FontWidth; i++) {
+        if(((au8FontImage[j] >> (7 - i)) & 0x1) == 0) {
           Serial.write("  ");
         } else {
           Serial.write("@@");
@@ -60,19 +64,21 @@ void FontImageSerialWrite(const FONTX2_Header_ANK_t* ptANK, const char* strStrin
       }
       Serial.write("\n");
     }
+    k++;
   }
 }
 
 void setup() {
   // put your setup code here, to run once:
-  char strString[] = "ABC";
-  
-  Serial.begin(115200);
-  delay(10);
+  uint8_t strString[] = "ABC";
+
+  Serial.begin(9600);
 
   FontImageSerialWrite(&tNaga10K, strString);
   FontImageSerialWrite(&tILGH16XB, strString);
   FontImageSerialWrite(&tILMH16XB, strString);
+  FontImageSerialWrite(&tHD44780_A00, strString);
+  FontImageSerialWrite(&tHD44780_A02, strString);
 }
 
 void loop() {
