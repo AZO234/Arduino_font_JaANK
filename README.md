@@ -9,6 +9,7 @@ This library includes follow ANK fonts.
 * [4x8] Naga10 altanated
 * [5x8] HD44780 A00
 * [5x8] HD44780 A02
+* [8x8] Gradius
 * [8x16] IPA Gothic
 * [8x16] IPA Mincho
 

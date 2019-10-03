@@ -15,6 +15,7 @@ extern FONTX2_Header_ANK_t tILGH16XB;
 extern FONTX2_Header_ANK_t tILMH16XB;
 extern FONTX2_Header_ANK_t tHD44780_A00;
 extern FONTX2_Header_ANK_t tHD44780_A02;
+extern FONTX2_Header_ANK_t tGradius;
 
 unsigned int FONTX2_ANK_GetFontImage(uint8_t* pu8FontImage, const FONTX2_Header_ANK_t* ptANK, const uint8_t u8Code) {
   uint8_t u8Data, u8LineSize;
@@ -79,6 +80,7 @@ void setup() {
   FontImageSerialWrite(&tILMH16XB, strString);
   FontImageSerialWrite(&tHD44780_A00, strString);
   FontImageSerialWrite(&tHD44780_A02, strString);
+  FontImageSerialWrite(&tGradius, strString);
 }
 
 void loop() {
